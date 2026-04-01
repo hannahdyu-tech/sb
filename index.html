@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spelling Bee Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --honey: #F5A623;
+    --honey-dark: #C97D0A;
+    --cream: #FDF6E3;
+    --parchment: #F0E6C8;
+    --ink: #2C1A0E;
+    --ink-light: #5C3D1E;
+    --comb: #E8D5A3;
+    --green: #3D7A4A;
+    --red: #A33030;
+  }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(245,166,35,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(245,166,35,0.08) 0%, transparent 50%);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .bee-icon {
+    font-size: 3rem;
+    display: block;
+    animation: wiggle 3s ease-in-out infinite;
+    margin-bottom: 0.25rem;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--honey-dark);
+    line-height: 1.1;
+  }
+
+  h1 span {
+    color: var(--ink);
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-light);
+    margin-top: 0.4rem;
+    letter-spacing: 0.04em;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    background: white;
+    border: 2px solid var(--comb);
+    border-radius: 16px;
+    padding: 1.8rem;
+    width: 100%;
+    max-width: 560px;
+    box-shadow: 0 4px 24px rgba(44,26,14,0.07);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Word List Setup ── */
+  #setup-card { margin-bottom: 1.5rem; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 0.6rem;
+  }
+
+  #word-input {
+    width: 100%;
+    min-height: 110px;
+    border: 2px solid var(--comb);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--cream);
+    resize: vertical;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+
+  #word-input:focus {
+    outline: none;
+    border-color: var(--honey);
+  }
+
+  .hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    margin-top: 0.4rem;
+    opacity: 0.7;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 0.65rem 1.4rem;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: var(--honey);
+    color: var(--ink);
+    box-shadow: 0 3px 0 var(--honey-dark);
+  }
+
+  .btn-primary:hover {
+    background: #f7b840;
+    box-shadow: 0 4px 0 var(--honey-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: var(--parchment);
+    color: var(--ink-light);
+    box-shadow: 0 3px 0 var(--comb);
+  }
+
+  .btn-secondary:hover {
+    background: var(--comb);
+  }
+
+  /* ── Practice Card ── */
+  #practice-card { display: none; }
+
+  .progress-bar-wrap {
+    background: var(--parchment);
+    border-radius: 99px;
+    height: 7px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  #progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--honey), var(--honey-dark));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  .word-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-light);
+    margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .say-it-label {
+    font-size: 0.85rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .speak-btn {
+    background: var(--parchment);
+    border: 2px solid var(--comb);
+    border-radius: 12px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1.05rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .speak-btn:hover {
+    background: var(--comb);
+    border-color: var(--honey);
+  }
+
+  .speak-icon { font-size: 1.3rem; }
+
+  #spell-input {
+    width: 100%;
+    border: 2.5px solid var(--comb);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.15rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.2s;
+    text-transform: uppercase;
+  }
+
+  #spell-input:focus {
+    outline: none;
+    border-color: var(--honey);
+  }
+
+  #spell-input.correct { border-color: var(--green); background: #EAF5EC; }
+  #spell-input.incorrect { border-color: var(--red); background: #FAF0F0; }
+
+  #feedback {
+    min-height: 1.8rem;
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    transition: opacity 0.2s;
+  }
+
+  #feedback.correct { color: var(--green); }
+  #feedback.incorrect { color: var(--red); }
+
+  .answer-reveal {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    background: var(--parchment);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    margin-top: 0.3rem;
+    color: var(--ink-light);
+  }
+
+  /* ── Results Card ── */
+  #results-card { display: none; text-align: center; }
+
+  .score-big {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--honey-dark);
+    line-height: 1;
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-light);
+    letter-spacing: 0.08em;
+  }
+
+  .miss-list {
+    text-align: left;
+    margin-top: 1.5rem;
+    border-top: 2px solid var(--parchment);
+    padding-top: 1.2rem;
+  }
+
+  .miss-list h3 {
+    font-size: 0.85rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.07em;
+    color: var(--ink-light);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .miss-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--parchment);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+  }
+
+  .miss-word { color: var(--red); letter-spacing: 0.1em; }
+  .correct-word { color: var(--green); letter-spacing: 0.1em; }
+
+  /* ── Honeycomb decoration ── */
+  .hex-row {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin: 1rem 0 0.5rem;
+  }
+
+  .hex {
+    width: 14px; height: 16px;
+    background: var(--honey);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    opacity: 0.25;
+  }
+  .hex.lit { opacity: 0.85; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="bee-icon">🐝</span>
+  <h1>Spelling <span>Bee</span> Practice</h1>
+  <p class="subtitle">Type your word list · Practice spelling · Track your score</p>
+</header>
+
+<!-- Setup Card -->
+<div class="card" id="setup-card">
+  <div class="section-label">Your word list</div>
+  <textarea id="word-input" placeholder="Enter words, one per line:&#10;necessary&#10;accommodate&#10;separate&#10;conscience&#10;rhythm"></textarea>
+  <p class="hint">One word per line. Order will be randomized during practice.</p>
+  <p class="hint" id="saved-notice" style="color:var(--green);display:none;">✓ Word list saved automatically</p>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="startPractice()">Start Practice 🐝</button>
+    <button class="btn-secondary" onclick="loadSample()">Load Sample Words</button>
+    <button class="btn-secondary" onclick="clearSaved()" title="Clear saved word list">Clear Saved</button>
+  </div>
+</div>
+
+<!-- Practice Card -->
+<div class="card" id="practice-card">
+  <div class="progress-bar-wrap">
+    <div id="progress-fill" style="width:0%"></div>
+  </div>
+
+  <div class="word-counter">
+    <span id="word-num">Word 1 of 10</span>
+    <span id="score-running">✓ 0 &nbsp; ✗ 0</span>
+  </div>
+
+  <div class="say-it-label">Listen to the word:</div>
+  <button class="speak-btn" onclick="speakWord()">
+    <span class="speak-icon">🔊</span>
+    <span>Hear the Word</span>
+  </button>
+
+  <div class="section-label">Spell it:</div>
+  <input type="text" id="spell-input" autocomplete="off" autocorrect="off"
+         spellcheck="false" placeholder="Type your answer…"
+         onkeydown="handleKey(event)" />
+
+  <div id="feedback"></div>
+
+  <div class="btn-row" style="margin-top:1rem;">
+    <button class="btn-primary" id="check-btn" onclick="checkAnswer()">Check ✓</button>
+    <button class="btn-secondary" onclick="skipWord()">Skip →</button>
+    <button class="btn-secondary" onclick="speakWord()">🔊 Replay</button>
+  </div>
+</div>
+
+<!-- Results Card -->
+<div class="card" id="results-card">
+  <div class="hex-row" id="hex-row"></div>
+  <p class="score-label">YOUR SCORE</p>
+  <div class="score-big" id="score-display">0/0</div>
+  <p id="score-msg" style="margin-top:0.5rem; color: var(--ink-light); font-size:0.95rem;"></p>
+
+  <div class="miss-list" id="miss-list" style="display:none;">
+    <h3>Missed Words</h3>
+    <div id="miss-items"></div>
+  </div>
+
+  <div class="btn-row" style="margin-top:1.5rem; justify-content:center;">
+    <button class="btn-primary" onclick="restartPractice()">Practice Again 🐝</button>
+    <button class="btn-secondary" onclick="backToSetup()">Edit Word List</button>
+  </div>
+</div>
+
+<script>
+  let words = [];
+  let current = 0;
+  let correct = 0;
+  let wrong = 0;
+  let missed = []; // {word, typed}
+  let answered = false;
+
+  const STORAGE_KEY = 'spellingBeeWords';
+
+  // Load saved words on page open
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      document.getElementById('word-input').value = saved;
+      document.getElementById('saved-notice').style.display = 'block';
+    }
+  });
+
+  // Auto-save as user types
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('word-input').addEventListener('input', () => {
+      const val = document.getElementById('word-input').value;
+      localStorage.setItem(STORAGE_KEY, val);
+      const notice = document.getElementById('saved-notice');
+      notice.style.display = val.trim() ? 'block' : 'none';
+    });
+  });
+
+  function clearSaved() {
+    if (confirm('Clear the saved word list?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById('word-input').value = '';
+      document.getElementById('saved-notice').style.display = 'none';
+    }
+  }
+
+  const SAMPLE = [
+    'necessary','accommodate','separate','conscience','rhythm',
+    'definitely','embarrass','occurring','privilege','receive',
+    'liaison','perseverance','exaggerate','judgment','millennium'
+  ];
+
+  function loadSample() {
+    document.getElementById('word-input').value = SAMPLE.join('\n');
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function startPractice() {
+    const raw = document.getElementById('word-input').value;
+    const parsed = raw.split('\n').map(w => w.trim()).filter(w => w.length > 0);
+    if (parsed.length === 0) {
+      alert('Please enter at least one word!');
+      return;
+    }
+    words = shuffle([...parsed]);
+    current = 0; correct = 0; wrong = 0; missed = [];
+    document.getElementById('setup-card').style.display = 'none';
+    document.getElementById('results-card').style.display = 'none';
+    document.getElementById('practice-card').style.display = 'block';
+    showWord();
+  }
+
+  function showWord() {
+    answered = false;
+    const input = document.getElementById('spell-input');
+    input.value = '';
+    input.className = '';
+    input.disabled = false;
+    document.getElementById('feedback').textContent = '';
+    document.getElementById('feedback').className = '';
+    document.getElementById('check-btn').disabled = false;
+
+    const total = words.length;
+    document.getElementById('word-num').textContent = `Word ${current + 1} of ${total}`;
+    document.getElementById('score-running').innerHTML = `✓ ${correct} &nbsp; ✗ ${wrong}`;
+    document.getElementById('progress-fill').style.width = `${(current / total) * 100}%`;
+
+    setTimeout(() => speakWord(), 300);
+    input.focus();
+  }
+
+  function speakWord() {
+    const word = words[current];
+    if (!word) return;
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.rate = 0.88;
+    utterance.pitch = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter') {
+      if (answered) { nextWord(); }
+      else { checkAnswer(); }
+    }
+  }
+
+  function checkAnswer() {
+    if (answered) return;
+    const input = document.getElementById('spell-input');
+    const typed = input.value.trim().toLowerCase();
+    const actual = words[current].toLowerCase();
+    const feedback = document.getElementById('feedback');
+    answered = true;
+    input.disabled = true;
+    document.getElementById('check-btn').disabled = true;
+
+    if (typed === actual) {
+      correct++;
+      input.classList.add('correct');
+      feedback.className = 'correct';
+      feedback.innerHTML = '✓ Correct! Press Enter for next word.';
+    } else {
+      wrong++;
+      missed.push({ word: actual, typed: typed });
+      input.classList.add('incorrect');
+      feedback.className = 'incorrect';
+      feedback.innerHTML = `✗ Not quite. <span class="answer-reveal">${actual.toUpperCase()}</span><br><small style="font-family:monospace;font-size:0.78rem;color:var(--ink-light);">Press Enter to continue</small>`;
+    }
+
+    document.getElementById('score-running').innerHTML = `✓ ${correct} &nbsp; ✗ ${wrong}`;
+
+    if (current + 1 >= words.length) {
+      document.getElementById('check-btn').textContent = 'See Results →';
+      document.getElementById('check-btn').disabled = false;
+      document.getElementById('check-btn').onclick = showResults;
+    } else {
+      setTimeout(() => { if (answered) nextWord(); }, 1800);
+    }
+  }
+
+  function nextWord() {
+    current++;
+    if (current >= words.length) { showResults(); return; }
+    showWord();
+  }
+
+  function skipWord() {
+    if (!answered) {
+      wrong++;
+      missed.push({ word: words[current].toLowerCase(), typed: '(skipped)' });
+    }
+    current++;
+    if (current >= words.length) { showResults(); return; }
+    showWord();
+  }
+
+  function showResults() {
+    window.speechSynthesis.cancel();
+    document.getElementById('practice-card').style.display = 'none';
+    const rc = document.getElementById('results-card');
+    rc.style.display = 'block';
+
+    const total = words.length;
+    document.getElementById('score-display').textContent = `${correct}/${total}`;
+
+    const pct = Math.round((correct / total) * 100);
+    const msg =
+      pct === 100 ? '🏆 Perfect score! You\'re a spelling champion!' :
+      pct >= 80  ? '🌟 Great job! Almost there!' :
+      pct >= 60  ? '👍 Good effort! Keep practicing.' :
+                   '📚 Keep at it — practice makes perfect!';
+    document.getElementById('score-msg').textContent = msg;
+
+    // Honeycomb score viz
+    const hexRow = document.getElementById('hex-row');
+    hexRow.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const h = document.createElement('div');
+      h.className = 'hex' + (i < correct ? ' lit' : '');
+      hexRow.appendChild(h);
+    }
+
+    // Missed words
+    const ml = document.getElementById('miss-list');
+    const mi = document.getElementById('miss-items');
+    mi.innerHTML = '';
+    if (missed.length > 0) {
+      ml.style.display = 'block';
+      missed.forEach(m => {
+        const row = document.createElement('div');
+        row.className = 'miss-item';
+        row.innerHTML = `<span class="miss-word">${m.typed.toUpperCase()}</span><span>→</span><span class="correct-word">${m.word.toUpperCase()}</span>`;
+        mi.appendChild(row);
+      });
+    } else {
+      ml.style.display = 'none';
+    }
+  }
+
+  function restartPractice() {
+    words = shuffle([...words]);
+    current = 0; correct = 0; wrong = 0; missed = [];
+    document.getElementById('results-card').style.display = 'none';
+    document.getElementById('check-btn').textContent = 'Check ✓';
+    document.getElementById('check-btn').onclick = checkAnswer;
+    document.getElementById('practice-card').style.display = 'block';
+    showWord();
+  }
+
+  function backToSetup() {
+    document.getElementById('results-card').style.display = 'none';
+    document.getElementById('setup-card').style.display = 'block';
+  }
+</script>
+</body>
+</html>
