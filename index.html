@@ -7,33 +7,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --honey: #F5A623;
-    --honey-dark: #C97D0A;
-    --cream: #FDF6E3;
-    --parchment: #F0E6C8;
-    --ink: #2C1A0E;
-    --ink-light: #5C3D1E;
-    --comb: #E8D5A3;
-    --green: #3D7A4A;
-    --red: #A33030;
+    --honey: #F5A623; --honey-dark: #C97D0A; --cream: #FDF6E3;
+    --parchment: #F0E6C8; --ink: #2C1A0E; --ink-light: #5C3D1E;
+    --comb: #E8D5A3; --green: #3D7A4A; --red: #A33030;
   }
-
   body {
-    font-family: 'Fraunces', Georgia, serif;
-    background: var(--cream);
-    color: var(--ink);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    font-family: 'Fraunces', Georgia, serif; background: var(--cream); color: var(--ink);
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center;
     padding: 2rem 1rem 4rem;
-    background-image:
-      radial-gradient(ellipse at 20% 10%, rgba(245,166,35,0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(245,166,35,0.08) 0%, transparent 50%);
+    background-image: radial-gradient(ellipse at 20% 10%, rgba(245,166,35,0.12) 0%, transparent 50%),
+                      radial-gradient(ellipse at 80% 80%, rgba(245,166,35,0.08) 0%, transparent 50%);
   }
-
   header { text-align:center; margin-bottom:2rem; animation:fadeDown 0.6s ease both; }
   .bee-icon { font-size:3rem; display:block; animation:wiggle 3s ease-in-out infinite; margin-bottom:0.25rem; }
   @keyframes wiggle { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
@@ -42,106 +27,51 @@
   .subtitle { font-size:0.9rem; font-family:'DM Mono',monospace; color:var(--ink-light); margin-top:0.4rem; letter-spacing:0.04em; }
   @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
   @keyframes fadeUp   { from{opacity:0;transform:translateY(16px)}  to{opacity:1;transform:translateY(0)} }
-
   .card {
-    background:white; border:2px solid var(--comb); border-radius:16px;
-    padding:1.8rem; width:100%; max-width:560px;
-    box-shadow:0 4px 24px rgba(44,26,14,0.07); animation:fadeUp 0.5s ease both; margin-bottom:1.2rem;
+    background:white; border:2px solid var(--comb); border-radius:16px; padding:1.8rem;
+    width:100%; max-width:560px; box-shadow:0 4px 24px rgba(44,26,14,0.07);
+    animation:fadeUp 0.5s ease both; margin-bottom:1.2rem;
   }
-
   .section-label {
     font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.1em;
     text-transform:uppercase; color:var(--ink-light); margin-bottom:0.6rem;
   }
-
-  /* Tabs */
-  .tabs { display:flex; gap:0; margin-bottom:1.2rem; border-bottom:2px solid var(--parchment); }
-  .tab-btn {
-    font-family:'DM Mono',monospace; font-size:0.78rem; letter-spacing:0.05em;
-    background:none; border:none; border-bottom:3px solid transparent;
-    padding:0.5rem 1rem; cursor:pointer; color:var(--ink-light);
-    transition:color 0.2s,border-color 0.2s; margin-bottom:-2px;
-    border-radius:0; box-shadow:none; font-weight:500;
-  }
-  .tab-btn.active { color:var(--honey-dark); border-bottom-color:var(--honey); font-weight:700; }
-  .tab-panel { display:none; }
-  .tab-panel.active { display:block; }
-
-  /* List cards */
   .lists-grid { display:flex; flex-direction:column; gap:0.7rem; }
   .list-card {
-    display:flex; align-items:center; gap:0.8rem;
-    border:2px solid var(--comb); border-radius:12px;
-    padding:0.85rem 1rem; background:var(--cream);
+    display:flex; align-items:center; gap:0.8rem; border:2px solid var(--comb);
+    border-radius:12px; padding:0.85rem 1rem; background:var(--cream);
     cursor:pointer; transition:border-color 0.2s,background 0.2s;
   }
   .list-card:hover { border-color:var(--honey); background:#fff8ec; }
   .list-card.selected { border-color:var(--honey); background:#fff8ec; box-shadow:0 0 0 3px rgba(245,166,35,0.2); }
-  .list-icon { font-size:1.4rem; flex-shrink:0; }
   .list-info { flex:1; min-width:0; }
-  .list-name { font-weight:700; font-size:1rem; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .list-name { font-weight:700; font-size:1rem; color:var(--ink); }
   .list-meta { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--ink-light); margin-top:0.15rem; }
-  .list-actions { display:flex; gap:0.3rem; flex-shrink:0; }
-  .icon-btn { background:none; border:none; font-size:1rem; cursor:pointer; padding:0.3rem 0.4rem; border-radius:6px; box-shadow:none; transition:background 0.15s; }
-  .icon-btn:hover { background:var(--parchment); }
-
-  .empty-state { text-align:center; padding:2rem 1rem; color:var(--ink-light); font-family:'DM Mono',monospace; font-size:0.85rem; }
-  .empty-state span { font-size:2rem; display:block; margin-bottom:0.5rem; opacity:0.4; }
-
-  /* Form inputs */
-  input[type="text"], textarea {
-    width:100%; border:2px solid var(--comb); border-radius:10px;
-    padding:0.75rem 1rem; font-family:'DM Mono',monospace; font-size:0.95rem;
-    color:var(--ink); background:var(--cream); transition:border-color 0.2s; line-height:1.6;
-  }
-  input[type="text"]:focus, textarea:focus { outline:none; border-color:var(--honey); }
-  input[type="text"] { margin-bottom:0.8rem; }
-  textarea { min-height:130px; resize:vertical; }
-
-  .upload-zone {
-    border:2px dashed var(--comb); border-radius:10px; padding:0.85rem;
-    text-align:center; cursor:pointer; margin-bottom:0.6rem;
-    transition:border-color 0.2s,background 0.2s; background:var(--cream); display:block;
-  }
-  .upload-zone:hover { border-color:var(--honey); background:#fff8ec; }
-  .upload-zone input { display:none; }
-  .upload-zone p { font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--ink-light); margin-top:0.2rem; }
-
-  .hint { font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--ink-light); margin-top:0.4rem; opacity:0.7; }
-
-  #upload-status { font-family:'DM Mono',monospace; font-size:0.75rem; margin:0.35rem 0; min-height:1rem; text-align:center; }
-  #upload-status.loading { color:var(--honey-dark); }
-  #upload-status.success { color:var(--green); }
-  #upload-status.error   { color:var(--red); }
-
-  /* Buttons */
   .btn-row { display:flex; gap:0.75rem; margin-top:1.2rem; flex-wrap:wrap; }
   button { font-family:'Fraunces',serif; font-size:1rem; font-weight:700; border:none; border-radius:10px; padding:0.65rem 1.4rem; cursor:pointer; transition:transform 0.1s,box-shadow 0.1s,background 0.2s; }
   button:active { transform:scale(0.97); }
   .btn-primary { background:var(--honey); color:var(--ink); box-shadow:0 3px 0 var(--honey-dark); }
   .btn-primary:hover { background:#f7b840; box-shadow:0 4px 0 var(--honey-dark); transform:translateY(-1px); }
-  .btn-primary:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:0 3px 0 var(--honey-dark); }
+  .btn-primary:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
   .btn-secondary { background:var(--parchment); color:var(--ink-light); box-shadow:0 3px 0 var(--comb); }
   .btn-secondary:hover { background:var(--comb); }
-
-  /* Practice */
   #practice-card, #results-card { display:none; }
   .practice-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
-  .practice-list-name { font-weight:700; font-size:1rem; color:var(--honey-dark); }
+  .practice-list-name { font-weight:700; font-size:1rem; color:var(--honey-dark); flex:1; margin-right:0.5rem; }
   .progress-bar-wrap { background:var(--parchment); border-radius:99px; height:7px; margin-bottom:1.2rem; overflow:hidden; }
   #progress-fill { height:100%; background:linear-gradient(90deg,var(--honey),var(--honey-dark)); border-radius:99px; transition:width 0.4s ease; }
   .word-counter { font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--ink-light); margin-bottom:1.2rem; display:flex; justify-content:space-between; }
   .speak-btn {
     background:var(--parchment); border:2px solid var(--comb); border-radius:12px;
-    padding:0.9rem 1.5rem; font-size:1.05rem; color:var(--ink);
-    display:flex; align-items:center; gap:0.6rem; margin-bottom:1.5rem;
-    width:100%; justify-content:center; cursor:pointer; transition:background 0.2s,border-color 0.2s;
+    padding:0.9rem 1.5rem; font-size:1.05rem; color:var(--ink); display:flex;
+    align-items:center; gap:0.6rem; margin-bottom:1.5rem; width:100%; justify-content:center;
+    cursor:pointer; transition:background 0.2s,border-color 0.2s;
   }
   .speak-btn:hover { background:var(--comb); border-color:var(--honey); }
   #spell-input {
-    width:100%; border:2.5px solid var(--comb); border-radius:10px;
-    padding:0.85rem 1.1rem; font-family:'DM Mono',monospace; font-size:1.15rem;
-    letter-spacing:0.12em; color:var(--ink); background:var(--cream); transition:border-color 0.2s; text-transform:uppercase;
+    width:100%; border:2.5px solid var(--comb); border-radius:10px; padding:0.85rem 1.1rem;
+    font-family:'DM Mono',monospace; font-size:1.15rem; letter-spacing:0.12em; color:var(--ink);
+    background:var(--cream); transition:border-color 0.2s; text-transform:uppercase;
   }
   #spell-input:focus { outline:none; border-color:var(--honey); }
   #spell-input.correct   { border-color:var(--green); background:#EAF5EC; }
@@ -150,8 +80,6 @@
   #feedback.correct   { color:var(--green); }
   #feedback.incorrect { color:var(--red); }
   .answer-reveal { font-family:'DM Mono',monospace; font-size:1rem; letter-spacing:0.15em; background:var(--parchment); border-radius:8px; padding:0.5rem 1rem; display:inline-block; margin-top:0.3rem; color:var(--ink-light); }
-
-  /* Results */
   #results-card { text-align:center; }
   .score-big { font-size:4rem; font-weight:700; color:var(--honey-dark); line-height:1; margin:0.5rem 0 0.25rem; }
   .score-label { font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--ink-light); letter-spacing:0.08em; }
@@ -163,11 +91,6 @@
   .hex-row { display:flex; justify-content:center; flex-wrap:wrap; gap:2px; margin:1rem 0 0.5rem; }
   .hex { width:14px; height:16px; background:var(--honey); clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); opacity:0.25; }
   .hex.lit { opacity:0.85; }
-
-  /* Edit modal */
-  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(44,26,14,0.45); z-index:100; align-items:center; justify-content:center; padding:1rem; }
-  .modal-overlay.open { display:flex; }
-  .modal-box { background:white; border-radius:16px; padding:1.8rem; width:100%; max-width:500px; box-shadow:0 8px 40px rgba(0,0,0,0.2); }
 </style>
 </head>
 <body>
@@ -175,47 +98,15 @@
 <header>
   <span class="bee-icon">🐝</span>
   <h1>Spelling <span>Bee</span> Practice</h1>
-  <p class="subtitle">Save multiple word lists · Pick one · Practice</p>
+  <p class="subtitle">Grade 6 · Select a list and practice</p>
 </header>
 
 <!-- Home Card -->
 <div class="card" id="home-card">
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('tab-select')">📋 My Lists</button>
-    <button class="tab-btn" onclick="showTab('tab-create')">＋ New List</button>
-  </div>
-
-  <!-- SELECT TAB -->
-  <div class="tab-panel active" id="tab-select">
-    <div class="lists-grid" id="lists-grid">
-      <div class="empty-state"><span>🍯</span>No lists yet — create one!</div>
-    </div>
-    <div class="btn-row" style="margin-top:1.4rem;">
-      <button class="btn-primary" id="start-btn" onclick="startPractice()" disabled>Start Practice 🐝</button>
-    </div>
-  </div>
-
-  <!-- CREATE TAB -->
-  <div class="tab-panel" id="tab-create">
-    <div class="section-label">List name</div>
-    <input type="text" id="list-name-input" placeholder="e.g. Week 3, Unit 5, Grade 6…" maxlength="40">
-
-    <div class="section-label">Upload a photo of your word list</div>
-    <label class="upload-zone">
-      <input type="file" id="photo-input" accept="image/*" onchange="handlePhoto(event)">
-      <span style="font-size:1.5rem;">📷</span>
-      <p>Tap to take a photo or choose an image</p>
-    </label>
-    <div id="upload-status"></div>
-
-    <div class="section-label" style="margin-top:0.6rem;">Or type your words</div>
-    <textarea id="word-input" placeholder="Enter words, one per line:&#10;necessary&#10;accommodate&#10;separate"></textarea>
-    <p class="hint">One word per line. Order will be randomized during practice.</p>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="saveList()">Save List 💾</button>
-      <button class="btn-secondary" onclick="showTab('tab-select')">Cancel</button>
-    </div>
+  <div class="section-label">Choose a word list</div>
+  <div class="lists-grid" id="lists-grid"></div>
+  <div class="btn-row">
+    <button class="btn-primary" id="start-btn" onclick="startPractice()" disabled>Start Practice 🐝</button>
   </div>
 </div>
 
@@ -223,7 +114,7 @@
 <div class="card" id="practice-card">
   <div class="practice-header">
     <span class="practice-list-name" id="practice-list-name"></span>
-    <button class="btn-secondary" style="padding:0.3rem 0.8rem;font-size:0.85rem;" onclick="backToHome()">← Lists</button>
+    <button class="btn-secondary" style="padding:0.3rem 0.8rem;font-size:0.85rem;white-space:nowrap;" onclick="backToHome()">← Lists</button>
   </div>
   <div class="progress-bar-wrap"><div id="progress-fill" style="width:0%"></div></div>
   <div class="word-counter">
@@ -261,184 +152,92 @@
   </div>
 </div>
 
-<!-- Edit Modal -->
-<div class="modal-overlay" id="edit-modal">
-  <div class="modal-box">
-    <div class="section-label">Edit list name</div>
-    <input type="text" id="edit-name-input" style="margin-bottom:1rem;" maxlength="40">
-    <div class="section-label">Words (one per line)</div>
-    <textarea id="edit-word-input" style="min-height:150px;"></textarea>
-    <div class="btn-row" style="margin-top:1rem;">
-      <button class="btn-primary" onclick="saveEdit()">Save Changes</button>
-      <button class="btn-secondary" onclick="closeEdit()">Cancel</button>
-    </div>
-  </div>
-</div>
-
 <script>
-  const STORAGE_KEY = 'spellingBeeLists_v2';
-  let lists = [];
-  let selectedId = null;
-  let editingId = null;
-  let words = [], current = 0, correct = 0, wrong = 0, missed = [], answered = false;
-
-  // ── Storage ───────────────────────────────────────────
-  function loadLists() {
-    try { lists = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch { lists = []; }
-  }
-  function saveLists() { localStorage.setItem(STORAGE_KEY, JSON.stringify(lists)); }
-  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
-  function escHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // ── Tabs ──────────────────────────────────────────────
-  function showTab(id) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.tab-btn')[id === 'tab-select' ? 0 : 1].classList.add('active');
-    if (id === 'tab-create') {
-      document.getElementById('list-name-input').value = '';
-      document.getElementById('word-input').value = '';
-      document.getElementById('upload-status').textContent = '';
-      document.getElementById('upload-status').className = '';
+  const LISTS = [
+    {
+      id:1, name:'Grade 6 Easy (A–F)',
+      words:['access','adhesive','admirable','advancement','advertise','alienate','amasses','ammeter','amplify','antifreeze','artistic','astronomy','avert','avian','behalf','bickering','birthright','bittersweet','botanist','brandishing','buffalo','bureau','cheetah','cloakroom','colonist','combination','confluence','corrupt','curtain','default','deride','disguise','disregard','distressful','domain','drapery','endangered','enlighten','equipped','exclusive','exhibit','fathom','fervor','fitful','formerly','freckling']
+    },
+    {
+      id:2, name:'Grade 6 Easy (G–W)',
+      words:['generation','generous','geometry','grater','hibernate','hydrant','immature','impression','insult','intricate','isle','labeled','laughed','literature','luge','magnify','malign','mirth','moderately','mountainous','mystery','nominate','nubby','oblate','observant','ogre','ozone','pacific','peach','pivot','pizza','plasma','pleasant','poncho','popular','poverty','prevision','profuse','prosper','pupil','quell','recollection','refreshments','restrict','ruckus','scornful','seashore','serviceable','shepherds','skillfully','skittish','slender','slippery','stomach','strategic','strudel','substandard','supreme','surname','swerve','transistor','undergird','wholesome']
+    },
+    {
+      id:3, name:'Grade 6 Average (A–D)',
+      words:['abolitionist','abutting','accessible','acknowledge','acoustic','acquittal','acrimony','adjourn','admiral','adulate','alternative','amateur','ambitious','angina','anodyne','anterior','apologize','arroyo','assault','assize','assuredly','asunder','atmosphere','authoritative','baritone','baronet','bastion','benediction','besmirch','betrayal','biography','biologist','blasphemy','blubbery','brogue','caboose','calash','calculate','calumet','cartilage','cello','centurion','chalice','chimpanzee','chlorine','civilize','classification','cloister','commotion','comparable','compulsion','conferred','confinement','conscience','convertible','corduroy','criticism','declaim','declaration','deficit','delicacy','democratic','deter','developer','diatribe','dinosaur','diplomat','disciple','dismantle','dispirited','distinguish','divisor','duplicator']
+    },
+    {
+      id:4, name:'Grade 6 Average (E–O)',
+      words:['earthenware','earwig','egotism','embellish','emphatically','enthusiasm','epidemic','epilepsy','espouse','exceed','excitement','excusable','exotic','expertise','falsetto','fertilizer','fissure','foreboding','forsaken','fossil','fuselage','generic','geocentric','gingham','harass','heifer','height','hexagonal','hopeful','ideation','imaginary','incessant','inconvenient','incredible','indescribable','individually','infer','infuriate','ingrained','insipid','interconnect','internally','intriguing','invocation','jaguar','jocular','kayak','kazoos','latitude','league','linguistic','macron','magnitude','mercerize','merchandise','mincing','misguided','monetary','nattily','nebula','nitrogen','nostalgia','objectionable','obligation','offensive','omnipotent','original','ozonic']
+    },
+    {
+      id:5, name:'Grade 6 Average (P–W)',
+      words:['panicked','parallel','patronage','patronize','penitent','pentameter','perceptive','percussionist','pillory','plateau','plenteous','postgraduate','premise','preparations','prestige','projector','prologue','pronunciation','prosaic','protrude','purport','quadruple','quarrelsome','receptacle','reimburse','renovate','retaliate','ridicule','righteousness','rondeau','sacrifice','saunter','sedate','seize','separate','socialite','solace','solidity','spiel','splutter','statuary','subscription','subtlety','surgeon','tactical','telegenic','tendril','tenure','thermocline','tortilla','treatise','ultimatum','umpteenth','uncouth','undaunted','undernourished','unperturbed','unswerving','unwary','uranium','utensil','vanquish','vegetate','vigil','vigorous','waggery','wholly','wreckage']
+    },
+    {
+      id:6, name:'Grade 6 Difficult (A–N)',
+      words:['accoucheur','admissible','ambergris','amorphous','anarchist','antipodal','audacity','auspices','auspicious','avowedly','balata','balneology','calliope','carillion','caucus','chamfer','charlatan','choreography','chronological','circumspectly','cognizable','conventicle','conventionally','copra','cuisine','devastation','dilatory','disparity','dissymmetry','distinguishable','effluence','emanation','euphonious','felucca','floruit','hazardous','histrionics','hurtled','hypothetical','impediment','indoctrinate','ingenious','inherent','jalapeno','kinesiology','knockwurst','laryngitis','luminosity','luminous','mahatma','martyr','metonymy','monastery','muesli','naiads','nonpareil']
+    },
+    {
+      id:7, name:'Grade 6 Difficult (O–Z)',
+      words:['oleaginous','opprobrious','ornithopters','ossify','patronymic','pedestrian','perspicuity','pianism','pique','pitchblende','pituitary','pogrom','polonaise','proclivity','profligacy','profligate','quadrennial','quarantine','ragout','reagent','redaction','replicate','respirometer','rhetorical','rhinoceros','scrimmage','sheriff','sinecure','sinewy','spoonerism','suitable','supercilious','superfluity','svelte','symptomatic','teriyaki','terrene','totalitarian','traipsing','treacherous','triumvirate','trommel','tsetse','turbulence','ullage','undeviating','unseasonable','vitreous','wizened','yachtsman','zucchini']
     }
+  ];
+
+  let selectedId = null;
+  let words = [], current = 0, correct = 0, wrong = 0, missed = [], answered = false;
+  let femaleVoice = null;
+
+  // ── Female voice setup ────────────────────────────────
+  function loadVoice() {
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return;
+    const preferred = ['Samantha','Karen','Moira','Fiona','Victoria','Tessa','Veena','Zira','Susan','Linda','Allison','Ava','Google US English'];
+    for (const name of preferred) {
+      const v = voices.find(v => v.name.includes(name));
+      if (v) { femaleVoice = v; return; }
+    }
+    femaleVoice = voices.find(v => v.lang.startsWith('en') && /female|woman/i.test(v.name))
+      || voices.find(v => v.lang === 'en-US')
+      || voices[0];
   }
+  window.speechSynthesis.onvoiceschanged = loadVoice;
+  loadVoice();
 
   // ── Render list grid ──────────────────────────────────
   function renderLists() {
     const grid = document.getElementById('lists-grid');
-    if (lists.length === 0) {
-      grid.innerHTML = '<div class="empty-state"><span>🍯</span>No lists yet — create one!</div>';
-      document.getElementById('start-btn').disabled = true;
-      selectedId = null;
-      return;
-    }
     grid.innerHTML = '';
-    lists.forEach(list => {
+    LISTS.forEach(list => {
       const div = document.createElement('div');
       div.className = 'list-card' + (list.id === selectedId ? ' selected' : '');
       div.innerHTML = `
-        <span class="list-icon">📋</span>
+        <span style="font-size:1.4rem;">📋</span>
         <div class="list-info">
-          <div class="list-name">${escHtml(list.name)}</div>
-          <div class="list-meta">${list.words.length} word${list.words.length !== 1 ? 's' : ''}</div>
+          <div class="list-name">${list.name}</div>
+          <div class="list-meta">${list.words.length} words</div>
         </div>
-        <div class="list-actions">
-          <button class="icon-btn" title="Edit" onclick="openEdit('${list.id}',event)">✏️</button>
-          <button class="icon-btn" title="Delete" onclick="deleteList('${list.id}',event)">🗑️</button>
-        </div>`;
-      div.addEventListener('click', () => selectList(list.id));
+        <span style="font-size:1.2rem;min-width:1.4rem;text-align:center;">${list.id === selectedId ? '✅' : ''}</span>`;
+      div.addEventListener('click', () => { selectedId = list.id; renderLists(); });
       grid.appendChild(div);
     });
     document.getElementById('start-btn').disabled = !selectedId;
   }
 
-  function selectList(id) { selectedId = id; renderLists(); }
-
-  // ── Save new list ─────────────────────────────────────
-  function saveList() {
-    const name = document.getElementById('list-name-input').value.trim();
-    const wordArr = document.getElementById('word-input').value
-      .split('\n').map(w => w.trim()).filter(w => w.length > 0);
-    if (!name) { alert('Please give your list a name.'); return; }
-    if (wordArr.length === 0) { alert('Please add at least one word.'); return; }
-    const entry = { id: uid(), name, words: wordArr };
-    lists.push(entry);
-    saveLists();
-    selectedId = entry.id;
-    renderLists();
-    showTab('tab-select');
-  }
-
-  // ── Delete ────────────────────────────────────────────
-  function deleteList(id, e) {
-    e.stopPropagation();
-    const list = lists.find(l => l.id === id);
-    if (!confirm(`Delete "${list.name}"?`)) return;
-    lists = lists.filter(l => l.id !== id);
-    if (selectedId === id) selectedId = null;
-    saveLists(); renderLists();
-  }
-
-  // ── Edit ──────────────────────────────────────────────
-  function openEdit(id, e) {
-    e.stopPropagation();
-    editingId = id;
-    const list = lists.find(l => l.id === id);
-    document.getElementById('edit-name-input').value = list.name;
-    document.getElementById('edit-word-input').value = list.words.join('\n');
-    document.getElementById('edit-modal').classList.add('open');
-  }
-  function closeEdit() {
-    document.getElementById('edit-modal').classList.remove('open');
-    editingId = null;
-  }
-  function saveEdit() {
-    const name = document.getElementById('edit-name-input').value.trim();
-    const wordArr = document.getElementById('edit-word-input').value
-      .split('\n').map(w => w.trim()).filter(w => w.length > 0);
-    if (!name) { alert('Please enter a name.'); return; }
-    if (wordArr.length === 0) { alert('Please add at least one word.'); return; }
-    const list = lists.find(l => l.id === editingId);
-    list.name = name; list.words = wordArr;
-    saveLists(); renderLists(); closeEdit();
-  }
-
-  // ── Photo upload ──────────────────────────────────────
-  async function handlePhoto(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const status = document.getElementById('upload-status');
-    status.className = 'loading';
-    status.textContent = '🐝 Reading your word list…';
-    try {
-      const base64 = await new Promise((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res(r.result.split(',')[1]);
-        r.onerror = () => rej(new Error('Read failed'));
-        r.readAsDataURL(file);
-      });
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: [
-            { type: 'image', source: { type: 'base64', media_type: file.type, data: base64 } },
-            { type: 'text', text: 'This is a printed spelling word list. Extract every spelling word and return them as a plain list, one word per line, nothing else. No numbers, no bullet points, no extra text — just the words.' }
-          ]}]
-        })
-      });
-      const data = await response.json();
-      const text = data.content.map(b => b.text || '').join('').trim();
-      if (!text) throw new Error('No words found');
-      document.getElementById('word-input').value = text;
-      status.className = 'success';
-      status.textContent = '✓ Words loaded! Review and edit if needed.';
-    } catch (err) {
-      status.className = 'error';
-      status.textContent = '✗ Could not read the image. Please type your words manually.';
-    }
-    event.target.value = '';
-  }
-
   // ── Practice ──────────────────────────────────────────
   function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+      [a[i], a[j]] = [a[j], a[i]];
     }
-    return arr;
+    return a;
   }
 
   function startPractice() {
-    const list = lists.find(l => l.id === selectedId);
+    const list = LISTS.find(l => l.id === selectedId);
     if (!list) return;
-    words = shuffle([...list.words]);
+    words = shuffle(list.words);
     current = 0; correct = 0; wrong = 0; missed = [];
     document.getElementById('home-card').style.display = 'none';
     document.getElementById('practice-list-name').textContent = list.name;
@@ -459,14 +258,16 @@
     document.getElementById('word-num').textContent = `Word ${current + 1} of ${total}`;
     document.getElementById('score-running').innerHTML = `✓ ${correct} &nbsp; ✗ ${wrong}`;
     document.getElementById('progress-fill').style.width = `${(current / total) * 100}%`;
-    setTimeout(() => speakWord(), 300);
+    setTimeout(() => speakWord(), 350);
     input.focus();
   }
 
   function speakWord() {
     const word = words[current]; if (!word) return;
+    if (!femaleVoice) loadVoice();
     const u = new SpeechSynthesisUtterance(word);
-    u.rate = 0.88; u.pitch = 1;
+    if (femaleVoice) u.voice = femaleVoice;
+    u.rate = 0.85; u.pitch = 1.1;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
   }
@@ -550,7 +351,7 @@
   }
 
   function restartPractice() {
-    words = shuffle([...words]);
+    words = shuffle(words);
     current = 0; correct = 0; wrong = 0; missed = [];
     document.getElementById('results-card').style.display = 'none';
     document.getElementById('check-btn').textContent = 'Check ✓';
@@ -567,13 +368,6 @@
     renderLists();
   }
 
-  // Close modal if clicking outside
-  document.getElementById('edit-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeEdit();
-  });
-
-  // Init
-  loadLists();
   renderLists();
 </script>
 </body>
